@@ -19,7 +19,7 @@ if ( isset($_POST["Submit"]) )
     	}
     	fclose($csvfile);
 	}
-	print_r($add_csv);
+	
 	//handle upload and setup batch file into an array
 	$file = $_FILES["file"]['tmp_name']; 
 	$handle = fopen($file,"r"); 
