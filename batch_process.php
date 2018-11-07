@@ -14,7 +14,8 @@ if ( isset($_POST["Submit"]) )
 	{
     	while (($data = fgetcsv($csvfile, 1000, ",")) !== FALSE) 
 		{
-			$add_csv[] = $data;
+			$tempid = $data['0'];
+			$add_csv[$tempid] = $data;
     	}
     	fclose($csvfile);
 	}
@@ -61,6 +62,21 @@ if ( isset($_POST["Submit"]) )
 			$flag3 = $row['31'];
 			$flag4 = $row['32'];
 			$flag5 = $row['33'];
+			
+			if (isset($add_csv[$p_id]) && $add_csv[$p_id]['6'])
+			{
+				$row['4'] = $add_csv[$p_id]['2'];
+				$row['5'] = $add_csv[$p_id]['3'];
+				$row['6'] = $add_csv[$p_id]['4'];
+				$row['7'] = $add_csv[$p_id]['5'];
+			} 
+			if (isset($add_csv[$d_id]) && $add_csv[$d_id]['7'])
+			{
+				$row['13'] = $add_csv[$d_id]['2'];
+				$row['14'] = $add_csv[$d_id]['3'];
+				$row['15'] = $add_csv[$d_id]['4'];
+				$row['16'] = $add_csv[$d_id]['5'];
+			}
 		}
 	}	
 	
