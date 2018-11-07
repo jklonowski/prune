@@ -79,9 +79,9 @@ if ( isset($_POST["Submit"]) )
 			}
 		}
 	}	
-	
+$new_csv[] = $row;
 
-echo $str;
+print_r($new_csv);
 }
 ?>   
 </body>
