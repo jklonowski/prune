@@ -78,8 +78,9 @@ if ( isset($_POST["Submit"]) )
 				$row['16'] = $add_csv[$d_id]['5'];
 			}
 		}
+		$new_csv[] = $row;
 	}	
-$new_csv[] = $row;
+
 
 print_r($new_csv);
 }
