@@ -12,7 +12,7 @@
 
 <body>
 <p>
-  <span class="style2">The Batch file has been pruned! </span><br />
+  <span class="style2">You've been Shuecklered! </span><br />
   <br />
   <?php
 if ( isset($_POST["Submit"]) ) 
