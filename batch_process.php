@@ -3,10 +3,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Transport - Batch Fixer</title>
+<style type="text/css">
+<!--
+.style2 {font-size: 24px}
+-->
+</style>
 </head>
 
 <body>
-<?php
+<p>
+  <span class="style2">The Batch file has been pruned! </span><br />
+  <br />
+  <?php
 if ( isset($_POST["Submit"]) ) 
 {
 	//Take address swap CSV and throw it into an array
@@ -47,21 +55,7 @@ if ( isset($_POST["Submit"]) )
 			$d_zip = $row['16'];
 			$d_contact = $row['17'];
 			$d_phone = $row['18'];
-			$charged = $row['19'];
-			$vin = $row['20'];
-			$year = $row['21'];
-			$make = $row['22'];
-			$model = $row['23'];
-			$trim = $row['24'];
-			$type = $row['25'];
-			$green = $row['26'];
-			$pay_status = $row['27'];
-			$release = $row['28'];
-			$flag1 = $row['29'];   //condition report fields
-			$flag2 = $row['30'];
-			$flag3 = $row['31'];
-			$flag4 = $row['32'];
-			$flag5 = $row['33'];
+
 			
 			if (isset($add_csv[$p_id]) && $add_csv[$p_id]['6'])
 			{
@@ -69,6 +63,7 @@ if ( isset($_POST["Submit"]) )
 				$row['5'] = $add_csv[$p_id]['3'];
 				$row['6'] = $add_csv[$p_id]['4'];
 				$row['7'] = $add_csv[$p_id]['5'];
+				echo "Swapped out Auction: $auctionid: $p_id - $p_name - $p_dba </br>";
 			} 
 			if (isset($add_csv[$d_id]) && $add_csv[$d_id]['7'])
 			{
@@ -76,14 +71,23 @@ if ( isset($_POST["Submit"]) )
 				$row['14'] = $add_csv[$d_id]['3'];
 				$row['15'] = $add_csv[$d_id]['4'];
 				$row['16'] = $add_csv[$d_id]['5'];
+				echo "Swapped out $d_id - $d_name - $d_dba </br>";
 			}
 		}
 		$new_csv[] = $row;
 	}	
-
-
-print_r($new_csv);
+	unlink('ACV_pruned.csv');
+	$fp = fopen('ACV_pruned.csv', 'w');
+	foreach ($new_csv as $value)
+	{
+		fputcsv($fp, $value);
+	}
+fclose($fp);
+//print_r($new_csv);
 }
 ?>   
+</p>
+<p>&nbsp;</p>
+<p><a href="ACV_pruned.csv">Pruned List </a></p>
 </body>
 </html>
