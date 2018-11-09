@@ -150,11 +150,14 @@ fclose($fp);
       <td><span class="style15"><?php printf($job['15']); ?></span></td>
       <td><span class="style15"><?php printf($job['16']); ?></span></td>
       <td><div align="center"><span class="style15">$<?php printf(number_format($job['19'],0)); ?></span></div></td>
-      <td width="80"><span class="style15">
-        <label> $
-          <input name="textfield" type="text" class="style15" size="5" maxlength="5" />
-        </label>
-      </span></td>
+      <td width="80">
+	  <?php
+	  $var1 = $job['19'] * .75 / 25;
+	  $var2 = floor($var1);
+	  $pay = $var2 * 25;
+	  ?>
+       $<input name="textfield" type="text" class="style15" value="<?php echo $pay; ?>" size="5" maxlength="5" />
+      </td>
     </tr>
     <?php } 
   }?>
