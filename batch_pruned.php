@@ -16,70 +16,83 @@
 
 <body>
 <?php 
+//*** Connect to the DB ***
+$user = "xdggshzwajnsri";
+$pass = "5322b774ceb298ccabda93325e8d1d0396cd228349e2798f1f12c8f787701449";
+$dbconn = pg_connect("host=ec2-107-21-98-165.compute-1.amazonaws.com port=5432 dbname=deisda4pd1ikeg user=$user password=$pass");
+if (!$dbconn) { echo "An error occurred.\n"; exit;}
 
-if ( isset($_POST["filename"]) ) 
+//If we have payout #s from previous page
+if ( isset($_POST['pay']) ) 
 {
 	$pay = $_POST['pay'];
-	//Take address swap CSV and throw it into an array
-	if (($csvfile = fopen("add_swap.csv", "r")) !== FALSE) 
-	{
-    	while (($data = fgetcsv($csvfile, 1000, ",")) !== FALSE) 
-		{
-			$tempid = $data['0'];
-			$add_csv[$tempid] = $data;
-    	}
-    	fclose($csvfile);
+	$inop = $_POST['inop'];
+	
+	//Setup pruned requests
+	$table = 'public."transport"';
+	$mysql = "SELECT * FROM $table WHERE pruned = FALSE";
+	$result = pg_query($dbconn, $mysql);
+	if (!$result) 
+	{ 
+		echo "An error occurred with Transportation table.\n"; exit; 
+	} else { 
+		$info = pg_fetch_all($result); 
 	}
 	
-	//handle upload and setup batch file into an array
-	$file = $_POST['filename']; 
-	$handle = fopen($file,"r"); 
 	
-	while (($row = fgetcsv($handle, 1200, ",")) !== FALSE) 
+	//Update DB with pay and inop
+	
+	//Write the file
+	$filename = "ACV_Jobs_" . date('MdY') . ".csv";
+	unlink($filename);
+
+	$fp = fopen($filename, 'w');
+	$header = "Order #,Pickup Name,Pickup Address,Pickup City,Pickup State,Pickup Zip,Pickup Contact,Pickup Phone,Delivery Name,Del Address,Del City,Del State,Del Zip,Del Contact,Del Phone,Payout,VIN,Year,Make,Model,Trim,Class,Operable";
+	$header = explode(",",$header);
+	fputcsv($fp, $header);
+	foreach ($info as $val)
 	{
-		if (is_numeric($row['0']))		
+		$auction = $val['auction_id'];
+		if ($pay[$auction] <> "")
 		{
-			$auctionid = $row['0'];
-			if (isset($pay[$auctionid]))
-			{
-				$p_id = $row['1'];
-				$d_id = $row['10'];
-				$row['19'] = $pay[$auctionid];
-				
-				if ($row['3'] == "") { $row['3'] = $row['2']; }
-				if ($row['12'] == "") { $row['12'] = $row['11']; }
-				
-				if (isset($add_csv[$p_id]) && $add_csv[$p_id]['6'])
-				{  // Swap out the pickup info
-					$row['4'] = $add_csv[$p_id]['2'];
-					$row['5'] = $add_csv[$p_id]['3'];
-					$row['6'] = $add_csv[$p_id]['4'];
-					$row['7'] = $add_csv[$p_id]['5'];
-				} 
-				if (isset($add_csv[$d_id]) && $add_csv[$d_id]['7'])
-				{  //Swap out the delivery info
-					$row['13'] = $add_csv[$d_id]['2'];
-					$row['14'] = $add_csv[$d_id]['3'];
-					$row['15'] = $add_csv[$d_id]['4'];
-					$row['16'] = $add_csv[$d_id]['5'];
-				}
-			}
+			$job['0'] = $auction;
+			$job['1'] = $val['p_name'];
+			$job['2'] = $val['p_address'];
+			$job['3'] = $val['p_city'];
+			$job['4'] = $val['p_state'];
+			$job['5'] = $val['p_zip'];
+			$job['6'] = $val['p_contact'];
+			$job['7'] = $val['p_phone'];
+			$job['8'] = $val['d_name'];
+			$job['9'] = $val['d_address'];
+			$job['10'] = $val['d_city'];
+			$job['11'] = $val['d_state'];
+			$job['12'] = $val['d_zip'];
+			$job['13'] = $val['d_contact'];
+			$job['14'] = $val['d_phone'];
+			$job['15'] = $pay[$auction];
+			$job['16'] = $val['vin'];
+			$job['17'] = $val['v_year'];
+			$job['18'] = $val['v_make'];
+			$job['19'] = $val['v_model'];
+			$job['20'] = $val['v_trim'];
+			$job['21'] = $val['v_class'];
+			//echo "$auction </br>";
+			//printf($inop[$auction]); echo "</br>";
+			if (isset($inop[$auction])) { $job['23'] = "** NO **"; } else { $job['23'] = "Yes"; }
+			fputcsv($fp, $job);
 		}
-	}	
-	unlink('ACV_pruned.csv');
-	$fp = fopen('ACV_pruned.csv', 'w');
-	foreach ($row as $value)
-	{
-		fputcsv($fp, $value);
 	}
+	
 	fclose($fp);	
+	
 }
 
 
 ?>	
 <p align="center" class="style1">Uh oh! You've been Shuecklered! </p>
 <p align="center" class="style1">&nbsp;</p>
-<p align="center" class="style2"><a href="acv_pruned.csv">Your File </a></p>
+<p align="center" class="style2">Your File: <a href="<?php echo "$filename"; ?>"><?php echo "$filename"; ?></a></p>
 <p align="center" class="style2">&nbsp;</p>
 <p align="center" class="style2"><strong>Dont mess it up!</strong><br />
   <em>Psssst. This means you Matt.</em> </p>
