@@ -47,7 +47,7 @@ if ( isset($_POST['pay']) )
 	unlink($filename);
 
 	$fp = fopen($filename, 'w');
-	$header = "Order #,Pickup Name,Pickup Address,Pickup City,Pickup State,Pickup Zip,Pickup Contact,Pickup Phone,Delivery Name,Del Address,Del City,Del State,Del Zip,Del Contact,Del Phone,Payout,VIN,Year,Make,Model,Trim,Class,Operable";
+	$header = "Order #,Pickup Name,Pickup Address,Pickup City,Pickup State,Pickup Zip,Pickup Contact,Pickup Phone,Delivery Name,Del Address,Del City,Del State,Del Zip,Del Contact,Del Phone,Charged,Payout,VIN,Year,Make,Model,Trim,Class,Operable";
 	$header = explode(",",$header);
 	fputcsv($fp, $header);
 	foreach ($info as $val)
@@ -77,9 +77,11 @@ if ( isset($_POST['pay']) )
 			$job['19'] = $val['v_model'];
 			$job['20'] = $val['v_trim'];
 			$job['21'] = $val['v_class'];
+			$job['22'] = $val['charged'];
+			$job['23'] = $val['payout'];
 			//echo "$auction </br>";
 			//printf($inop[$auction]); echo "</br>";
-			if (isset($inop[$auction])) { $job['23'] = "** NO **"; } else { $job['23'] = "Yes"; }
+			if (isset($inop[$auction])) { $job['24'] = "** NO **"; } else { $job['24'] = "Yes"; }
 			fputcsv($fp, $job);
 		}
 	}
