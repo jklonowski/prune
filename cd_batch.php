@@ -58,7 +58,7 @@ if ( isset($_POST["Submit"]) )
 
 			$type = "";
 			$pay_method = "check";
-			$trailer = "open";;
+			$trailer = "open";
 			$info = "ACV AUCTIONS - Get Paid electronically Instantly!";
 			$date1 = date("Y-m-d");
 			$date2 = date('Y-m-d', strtotime('+30 days'));
