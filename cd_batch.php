@@ -46,14 +46,15 @@ if ( isset($_POST["Submit"]) )
 			$d_zip = $row['12'];
 			$d_contact = $row['13'];
 			$d_phone = $row['14'];
-			$payout= $row['15'];
-			$vin = $row['16'];
-			$year = $row['17'];
-			$make = $row['18'];
-			$model = $row['19'];
-			$trim = $row['20'];
-			$type = $row['21'];
-			if ($row['22'] == "** NO **") { $op = "inoperable"; } else { $op = "operable"; }
+			$vin = $row['15'];
+			$year = $row['16'];
+			$make = $row['17'];
+			$model = $row['18'];
+			$trim = $row['19'];
+			$type = $row['20'];
+			$charged = $row['21'];
+			$payout= $row['22'];
+			if ($row['23'] == "** NO **") { $op = "inoperable"; } else { $op = "operable"; }
 
 			$type = "";
 			$pay_method = "check";
