@@ -78,17 +78,17 @@ if ( isset($_POST['pay']) )
 			$job['20'] = $val['v_class'];
 			$job['21'] = $val['charged'];
 			$job['22'] = $pay[$auction];
-			//echo "$auction </br>";
-			//printf($inop[$auction]); echo "</br>";
-			if (isset($inop[$auction])) { $job['23'] = "** NO **"; } else { $job['23'] = "Yes"; }
+
+			if (isset($inop[$auction])) { $job['23'] = "** NO **"; $my_arr['inop'] = TRUE; } else { $job['23'] = "Yes"; $my_arr['inop'] = FALSE; }
 			fputcsv($fp, $job);
+			
+			$my_arr['payout'] = $pay[$auction];
+			$condition['auction_id'] = $auction;
+			$res = pg_update($dbconn, 'transport', $my_arr, $condition);	
 		}
 	}
-	
-	fclose($fp);	
-	
+	fclose($fp);
 }
-
 
 ?>	
 <p align="center" class="style1">Uh oh! You've been Shuecklered! </p>
