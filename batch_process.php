@@ -191,11 +191,11 @@ if ( isset($_POST["Submit"]) )
 		}
 	 ?>
     <tr bgcolor="<?php echo $bcolor; ?>" onMouseOver="this.bgColor = '#C2F3C6'" onMouseOut ="this.bgColor = '<?php echo $bcolor ?>'">
-      <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['0']); ?></span></td>
+      <td><span class="style15"><?php printf($job['0']); ?></span></td>
       <td><div align="center">
           <input type="checkbox" name="inop[<?php printf($job['0']); ?>]" value="checkbox" />
       </div></td>
-      <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php echo $vehicle; ?></span></td>
+      <td><span class="style15"><?php echo $vehicle; ?></span></td>
       <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['3']); ?></span></td>
       <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['4']); ?></span></td>
       <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['5']); ?></span></td>
@@ -289,7 +289,7 @@ if ( isset($_POST["Submit"]) )
 		}
 	 ?>
     <tr bgcolor="<?php echo $bcolor; ?>" onMouseOver="this.bgColor = '#C2F3C6'" onMouseOut ="this.bgColor = '<?php echo $bcolor ?>'">
-      <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['0']); ?></span></td>
+      <td><span class="style15"><?php printf($job['0']); ?></span></td>
       <td><div align="center">
         <label>
         <input name="inop[<?php printf($job['0']); ?>]" type="checkbox" value="checkbox" checked="checked" />

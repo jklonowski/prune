@@ -115,7 +115,7 @@ if ( isset($_POST['pay']) )
     <td colspan="4"><div align="right" class="style14">
       <div align="center">
         <?php if (isset($inop)) { printf(count($inop)); } else { echo "0"; } ?>
-        In-op Jobs </div>
+        Leftover Job(s) </div>
     </div></td>
   </tr>
   <tr>
@@ -139,7 +139,7 @@ if ( isset($_POST['pay']) )
     <td bgcolor="330033"><div align="center" class="style13">Zip</div></td>
     <td colspan="2" bgcolor="#003300"><div align="center" class="style13">Charged</div></td>
   </tr>
-  <?php if(isset($inop))
+  <?php if(isset($nobatch))
   { 
   	$bcolor  = "#F1EEEE";  //starting row background color
   	foreach($nobatch as $ljob) {
