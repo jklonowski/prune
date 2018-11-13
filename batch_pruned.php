@@ -90,7 +90,7 @@ if ( isset($_POST['pay']) )
 			if (isset($inop[$auction])) { $job['23'] = "** NO **"; } else { $job['23'] = "Yes"; }
 			fputcsv($fp, $job);
 		} else {
-			$nobatch = $val;
+			$nobatch[] = $val;
 		}
 	}
 	
@@ -125,8 +125,7 @@ if ( isset($_POST['pay']) )
     <td colspan="2" bgcolor="#000000" class="style8"><div align="center"></div></td>
   </tr>
   <tr>
-    <td bgcolor="#330000"><div align="center" class="style8 style12 style14">Auction ID </div></td>
-    <td bgcolor="#330000"><div align="center" class="style8 style12 style14">Inop? </div></td>
+    <td colspan="2" bgcolor="#330000"><div align="center" class="style8 style12 style14">Auction ID </div></td>
     <td bgcolor="#330000"><div align="center" class="style8 style12 style14">Vehicle</div></td>
     <td bgcolor="#000033"><div align="center" class="style13">Name</div></td>
     <td bgcolor="#000033"><div align="center" class="style13">Address</div></td>
@@ -154,12 +153,7 @@ if ( isset($_POST['pay']) )
 		}
 	 ?>
   <tr bgcolor="<?php echo $bcolor; ?>" onmouseover="this.bgColor = '#C2F3C6'" onmouseout ="this.bgColor = '<?php echo $bcolor ?>'">
-    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['0']); ?></span></td>
-    <td><div align="center">
-      <label>
-        <input name="inop[<?php printf($job['0']); ?>]" type="checkbox" value="checkbox" checked="checked" />
-        </label>
-    </div></td>
+    <td colspan="2"><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['0']); ?></span></td>
     <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php echo $vehicle; ?></span></td>
     <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['3']); ?></span></td>
     <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['4']); ?></span></td>
@@ -179,7 +173,7 @@ if ( isset($_POST['pay']) )
   } else { ?>
   <tr>
     <td colspan="15"><p>&nbsp;</p>
-        <p align="center" class="style14">No in-op jobs in this list </p>
+        <p align="center" class="style14">No leftover jobs</p>
       <p>&nbsp;</p></td>
   </tr>
   <?php } ?>

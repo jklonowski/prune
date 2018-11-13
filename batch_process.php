@@ -127,7 +127,6 @@ if ( isset($_POST["Submit"]) )
 			$myarray['v_class'] = $row['25'];
 			$myarray['vin'] = $row['20'];
 			$myarray['charged'] = $row['19'];
-			$vehicle = $row['21'] . " " . $row['22'] . " " . $row['23'] . " " . $row['24'];
 			
 			$mytable = "transport";
 		 	$res = pg_insert($dbconn, $mytable, $myarray);
@@ -181,13 +180,15 @@ if ( isset($_POST["Submit"]) )
   	$bcolor  = "#F1EEEE";  //starting row background color
   	foreach($ready as $job) {
 	
-	$thisid = $job['0'];
-	if ($bcolor == "#FFFFFF")   //alternate row background colors
-  	{ 
-		$bcolor = "#F1EEEE"; 
-  	} else { 
-		$bcolor = "#FFFFFF"; 
-  	}
+		$vehicle = $job['21'] . " " . $job['22'] . " " . $job['23'] . " " . $job['24'];
+	
+		$thisid = $job['0'];
+		if ($bcolor == "#FFFFFF")   //alternate row background colors
+		{ 
+			$bcolor = "#F1EEEE"; 
+		} else { 
+			$bcolor = "#FFFFFF"; 
+		}
 	 ?>
     <tr bgcolor="<?php echo $bcolor; ?>" onMouseOver="this.bgColor = '#C2F3C6'" onMouseOut ="this.bgColor = '<?php echo $bcolor ?>'">
       <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['0']); ?></span></td>
@@ -278,13 +279,14 @@ if ( isset($_POST["Submit"]) )
   	$bcolor  = "#F1EEEE";  //starting row background color
   	foreach($inop as $job) {
 	
-	$thisid = $job['0'];
-	if ($bcolor == "#FFFFFF")   //alternate row background colors
-  	{ 
-		$bcolor = "#F1EEEE"; 
-  	} else { 
-		$bcolor = "#FFFFFF"; 
-  	}
+		$vehicle = $job['21'] . " " . $job['22'] . " " . $job['23'] . " " . $job['24'];
+		$thisid = $job['0'];
+		if ($bcolor == "#FFFFFF")   //alternate row background colors
+		{ 
+			$bcolor = "#F1EEEE"; 
+		} else { 
+			$bcolor = "#FFFFFF"; 
+		}
 	 ?>
     <tr bgcolor="<?php echo $bcolor; ?>" onMouseOver="this.bgColor = '#C2F3C6'" onMouseOut ="this.bgColor = '<?php echo $bcolor ?>'">
       <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['0']); ?></span></td>
