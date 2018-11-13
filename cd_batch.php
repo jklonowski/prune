@@ -90,9 +90,7 @@ if ( isset($_POST["Submit"]) )
   </tr>
   <tr>
     <td colspan="2"><div align="center">
-      <label>
-      <input type="submit" name="Submit" value="Send to CD" />
-      </label>
+      <label></label>
     </div></td>
   </tr>
 </table>
