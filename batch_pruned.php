@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Untitled Document</title>
+<title>The Batchery - CSV Download</title>
 <style type="text/css">
 <!--
 .style1 {
@@ -47,9 +47,6 @@ if ( isset($_POST['pay']) )
 		$info = pg_fetch_all($result); 
 	}
 	
-	
-	//Update DB with pay and inop
-	
 	//Write the file
 	$filename = "ACV_Jobs_" . date('MdY') . ".csv";
 	unlink($filename);
@@ -61,36 +58,34 @@ if ( isset($_POST['pay']) )
 	foreach ($info as $val)
 	{
 		$auction = $val['auction_id'];
+		$job['0'] = $auction;
+		$job['1'] = $val['p_name'];
+		$job['2'] = $val['p_address'];
+		$job['3'] = $val['p_city'];
+		$job['4'] = $val['p_state'];
+		$job['5'] = $val['p_zip'];
+		$job['6'] = $val['p_contact'];
+		$job['7'] = $val['p_phone'];
+		$job['8'] = $val['d_name'];
+		$job['9'] = $val['d_address'];
+		$job['10'] = $val['d_city'];
+		$job['11'] = $val['d_state'];
+		$job['12'] = $val['d_zip'];
+		$job['13'] = $val['d_contact'];
+		$job['14'] = $val['d_phone'];
+		$job['15'] = $pay[$auction];
+		$job['16'] = $val['vin'];
+		$job['17'] = $val['v_year'];
+		$job['18'] = $val['v_make'];
+		$job['19'] = $val['v_model'];
+		$job['20'] = $val['v_trim'];
+		$job['21'] = $val['v_class'];
 		if ($pay[$auction] <> "")
 		{
-			$job['0'] = $auction;
-			$job['1'] = $val['p_name'];
-			$job['2'] = $val['p_address'];
-			$job['3'] = $val['p_city'];
-			$job['4'] = $val['p_state'];
-			$job['5'] = $val['p_zip'];
-			$job['6'] = $val['p_contact'];
-			$job['7'] = $val['p_phone'];
-			$job['8'] = $val['d_name'];
-			$job['9'] = $val['d_address'];
-			$job['10'] = $val['d_city'];
-			$job['11'] = $val['d_state'];
-			$job['12'] = $val['d_zip'];
-			$job['13'] = $val['d_contact'];
-			$job['14'] = $val['d_phone'];
-			$job['15'] = $pay[$auction];
-			$job['16'] = $val['vin'];
-			$job['17'] = $val['v_year'];
-			$job['18'] = $val['v_make'];
-			$job['19'] = $val['v_model'];
-			$job['20'] = $val['v_trim'];
-			$job['21'] = $val['v_class'];
-			//echo "$auction </br>";
-			//printf($inop[$auction]); echo "</br>";
 			if (isset($inop[$auction])) { $job['23'] = "** NO **"; } else { $job['23'] = "Yes"; }
 			fputcsv($fp, $job);
 		} else {
-			$nobatch[] = $val;
+			$nobatch[] = $job;
 		}
 	}
 	
@@ -106,15 +101,15 @@ if ( isset($_POST['pay']) )
 <p align="center" class="style2">&nbsp;</p>
 <table width="1400" border="0" align="center" cellpadding="3" cellspacing="1">
   <tr>
-    <td colspan="15"><div align="center"><span class="style16">Leftover Jobs <br />
+    <td colspan="13"><div align="center"><span class="style16">Leftover Jobs <br />
     </span></div></td>
   </tr>
   <tr>
     <td colspan="4"><div align="center" class="style11"> </div></td>
     <td colspan="7"><div align="center" class="style16"></div></td>
-    <td colspan="4"><div align="right" class="style14">
+    <td colspan="2"><div align="right" class="style14">
       <div align="center">
-        <?php if (isset($inop)) { printf(count($inop)); } else { echo "0"; } ?>
+        <?php if (isset($nobatch)) { printf(count($nobatch)); } else { echo "0"; } ?>
         Leftover Job(s) </div>
     </div></td>
   </tr>
@@ -122,7 +117,6 @@ if ( isset($_POST['pay']) )
     <td colspan="3" bgcolor="#000000" class="style8"><div align="center">Auction Info </div></td>
     <td colspan="5" bgcolor="#000000" class="style8"><div align="center">Pickup Info </div></td>
     <td colspan="5" bgcolor="#000000" class="style8"><div align="center">Delivery Info </div></td>
-    <td colspan="2" bgcolor="#000000" class="style8"><div align="center"></div></td>
   </tr>
   <tr>
     <td colspan="2" bgcolor="#330000"><div align="center" class="style8 style12 style14">Auction ID </div></td>
@@ -137,10 +131,10 @@ if ( isset($_POST['pay']) )
     <td bgcolor="330033"><div align="center" class="style13">City</div></td>
     <td bgcolor="330033"><div align="center" class="style13">State</div></td>
     <td bgcolor="330033"><div align="center" class="style13">Zip</div></td>
-    <td colspan="2" bgcolor="#003300"><div align="center" class="style13">Charged</div></td>
   </tr>
   <?php if(isset($nobatch))
   { 
+  
   	$bcolor  = "#F1EEEE";  //starting row background color
   	foreach($nobatch as $ljob) {
 		
@@ -158,24 +152,21 @@ if ( isset($_POST['pay']) )
   <tr bgcolor="<?php echo $bcolor; ?>" onmouseover="this.bgColor = '#C2F3C6'" onmouseout ="this.bgColor = '<?php echo $bcolor ?>'">
     <td colspan="2"><span class="style15"><?php printf($ljob['0']); ?></span></td>
     <td><span class="style15"><?php echo $vehicle; ?></span></td>
+    <td><span class="style15"><?php printf($ljob['1']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['2']); ?></span></td>
     <td><span class="style15"><?php printf($ljob['3']); ?></span></td>
     <td><span class="style15"><?php printf($ljob['4']); ?></span></td>
     <td><span class="style15"><?php printf($ljob['5']); ?></span></td>
-    <td><span class="style15"><?php printf($ljob['6']); ?></span></td>
-    <td><span class="style15"><?php printf($ljob['7']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['8']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['9']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['10']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['11']); ?></span></td>
     <td><span class="style15"><?php printf($ljob['12']); ?></span></td>
-    <td><span class="style15"><?php printf($ljob['13']); ?></span></td>
-    <td><span class="style15"><?php printf($ljob['14']); ?></span></td>
-    <td><span class="style15"><?php printf($ljob['15']); ?></span></td>
-    <td><span class="style15"><?php printf($ljob['16']); ?></span></td>
-    <td colspan="2"><div align="center"><span class="style15">$
-              <?php if ($ljob['19'] > 0 && $ljob['19'] <> "") { printf(number_format($ljob['19'],0)); } else { echo "0";  $ljob['19'] = "0"; } ?>
-    </span></div></td>
   </tr>
   <?php } 
   } else { ?>
   <tr>
-    <td colspan="15"><p>&nbsp;</p>
+    <td colspan="13"><p>&nbsp;</p>
         <p align="center" class="style14">No leftover jobs</p>
       <p>&nbsp;</p></td>
   </tr>
@@ -194,8 +185,6 @@ if ( isset($_POST['pay']) )
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td width="80">&nbsp;</td>
   </tr>
 </table>
 <p align="center" class="style2">&nbsp;</p>
