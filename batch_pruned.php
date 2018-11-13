@@ -145,26 +145,29 @@ if ( isset($_POST['pay']) )
   	foreach($nobatch as $ljob) {
 		
 		$thisid = $ljob['0'];
-		if ($bcolor == "#FFFFFF")   //alternate row background colors
-		{ 
-			$bcolor = "#F1EEEE"; 
-		} else { 
-			$bcolor = "#FFFFFF"; 
-		}
+		
+			$vehicle = $ljob['17'] . " " . $ljob['18'] . " " . $ljob['19'] . " " . $ljob['20'];
+			
+			if ($bcolor == "#FFFFFF")   //alternate row background colors
+			{ 
+				$bcolor = "#F1EEEE"; 
+			} else { 
+				$bcolor = "#FFFFFF"; 
+			}
 	 ?>
   <tr bgcolor="<?php echo $bcolor; ?>" onmouseover="this.bgColor = '#C2F3C6'" onmouseout ="this.bgColor = '<?php echo $bcolor ?>'">
-    <td colspan="2"><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['0']); ?></span></td>
-    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php echo $vehicle; ?></span></td>
-    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['3']); ?></span></td>
-    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['4']); ?></span></td>
-    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['5']); ?></span></td>
-    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['6']); ?></span></td>
-    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['7']); ?></span></td>
-    <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($ljob['12']); ?></span></td>
-    <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($ljob['13']); ?></span></td>
-    <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($ljob['14']); ?></span></td>
-    <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($ljob['15']); ?></span></td>
-    <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($ljob['16']); ?></span></td>
+    <td colspan="2"><span class="style15"><?php printf($ljob['0']); ?></span></td>
+    <td><span class="style15"><?php echo $vehicle; ?></span></td>
+    <td><span class="style15"><?php printf($ljob['3']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['4']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['5']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['6']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['7']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['12']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['13']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['14']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['15']); ?></span></td>
+    <td><span class="style15"><?php printf($ljob['16']); ?></span></td>
     <td colspan="2"><div align="center"><span class="style15">$
               <?php if ($ljob['19'] > 0 && $ljob['19'] <> "") { printf(number_format($ljob['19'],0)); } else { echo "0";  $ljob['19'] = "0"; } ?>
     </span></div></td>
