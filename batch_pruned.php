@@ -10,6 +10,14 @@
 	font-size: 24px;
 }
 .style2 {font-family: Arial, Helvetica, sans-serif; font-size: 14px; }
+.style11 {font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000000; }
+.style12 {font-size: 12px}
+.style13 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; color: #FFFFFF; }
+.style14 {font-family: Arial, Helvetica, sans-serif}
+.style15 {font-size: 12px; font-family: Arial, Helvetica, sans-serif; }
+.style16 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; }
+.style20 {font-size: 12px; font-style: italic; }
+.style8 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 14px; color: #FFFFFF; }
 -->
 </style>
 </head>
@@ -47,7 +55,7 @@ if ( isset($_POST['pay']) )
 	unlink($filename);
 
 	$fp = fopen($filename, 'w');
-	$header = "Order #,Pickup Name,Pickup Address,Pickup City,Pickup State,Pickup Zip,Pickup Contact,Pickup Phone,Delivery Name,Del Address,Del City,Del State,Del Zip,Del Contact,Del Phone,VIN,Year,Make,Model,Trim,Class,Charged,Payout,Operable";
+	$header = "Order #,Pickup Name,Pickup Address,Pickup City,Pickup State,Pickup Zip,Pickup Contact,Pickup Phone,Delivery Name,Del Address,Del City,Del State,Del Zip,Del Contact,Del Phone,Payout,VIN,Year,Make,Model,Trim,Class,Operable";
 	$header = explode(",",$header);
 	fputcsv($fp, $header);
 	foreach ($info as $val)
@@ -70,32 +78,129 @@ if ( isset($_POST['pay']) )
 			$job['12'] = $val['d_zip'];
 			$job['13'] = $val['d_contact'];
 			$job['14'] = $val['d_phone'];
-			$job['15'] = $val['vin'];
-			$job['16'] = $val['v_year'];
-			$job['17'] = $val['v_make'];
-			$job['18'] = $val['v_model'];
-			$job['19'] = $val['v_trim'];
-			$job['20'] = $val['v_class'];
-			$job['21'] = $val['charged'];
-			$job['22'] = $pay[$auction];
-
-			if (isset($inop[$auction])) { $job['23'] = "** NO **"; $my_arr['inop'] = TRUE; } else { $job['23'] = "Yes"; $my_arr['inop'] = FALSE; }
+			$job['15'] = $pay[$auction];
+			$job['16'] = $val['vin'];
+			$job['17'] = $val['v_year'];
+			$job['18'] = $val['v_make'];
+			$job['19'] = $val['v_model'];
+			$job['20'] = $val['v_trim'];
+			$job['21'] = $val['v_class'];
+			//echo "$auction </br>";
+			//printf($inop[$auction]); echo "</br>";
+			if (isset($inop[$auction])) { $job['23'] = "** NO **"; } else { $job['23'] = "Yes"; }
 			fputcsv($fp, $job);
-			
-			$my_arr['payout'] = $pay[$auction];
-			$condition['auction_id'] = $auction;
-			$res = pg_update($dbconn, 'transport', $my_arr, $condition);	
+		} else {
+			$nobatch = $val;
 		}
 	}
-	fclose($fp);
+	
+	fclose($fp);	
+	
 }
+
 
 ?>	
 <p align="center" class="style1">Uh oh! You've been Shuecklered! </p>
 <p align="center" class="style1">&nbsp;</p>
 <p align="center" class="style2">Your File: <a href="<?php echo "$filename"; ?>"><?php echo "$filename"; ?></a></p>
 <p align="center" class="style2">&nbsp;</p>
-<p align="center" class="style2"><strong>Dont mess it up!</strong><br />
-  <em>Psssst. This means you Matt.</em> </p>
+<table width="1400" border="0" align="center" cellpadding="3" cellspacing="1">
+  <tr>
+    <td colspan="15"><div align="center"><span class="style16">Leftover Jobs <br />
+    </span></div></td>
+  </tr>
+  <tr>
+    <td colspan="4"><div align="center" class="style11"> </div></td>
+    <td colspan="7"><div align="center" class="style16"></div></td>
+    <td colspan="4"><div align="right" class="style14">
+      <div align="center">
+        <?php if (isset($inop)) { printf(count($inop)); } else { echo "0"; } ?>
+        In-op Jobs </div>
+    </div></td>
+  </tr>
+  <tr>
+    <td colspan="3" bgcolor="#000000" class="style8"><div align="center">Auction Info </div></td>
+    <td colspan="5" bgcolor="#000000" class="style8"><div align="center">Pickup Info </div></td>
+    <td colspan="5" bgcolor="#000000" class="style8"><div align="center">Delivery Info </div></td>
+    <td colspan="2" bgcolor="#000000" class="style8"><div align="center"></div></td>
+  </tr>
+  <tr>
+    <td bgcolor="#330000"><div align="center" class="style8 style12 style14">Auction ID </div></td>
+    <td bgcolor="#330000"><div align="center" class="style8 style12 style14">Inop? </div></td>
+    <td bgcolor="#330000"><div align="center" class="style8 style12 style14">Vehicle</div></td>
+    <td bgcolor="#000033"><div align="center" class="style13">Name</div></td>
+    <td bgcolor="#000033"><div align="center" class="style13">Address</div></td>
+    <td bgcolor="#000033"><div align="center" class="style13">City</div></td>
+    <td bgcolor="#000033"><div align="center" class="style13">State</div></td>
+    <td bgcolor="#000033"><div align="center" class="style13">Zip</div></td>
+    <td bgcolor="330033"><div align="center" class="style13">Name</div></td>
+    <td bgcolor="330033"><div align="center" class="style13">Address</div></td>
+    <td bgcolor="330033"><div align="center" class="style13">City</div></td>
+    <td bgcolor="330033"><div align="center" class="style13">State</div></td>
+    <td bgcolor="330033"><div align="center" class="style13">Zip</div></td>
+    <td colspan="2" bgcolor="#003300"><div align="center" class="style13">Charged</div></td>
+  </tr>
+  <?php if(isset($inop))
+  { 
+  	$bcolor  = "#F1EEEE";  //starting row background color
+  	foreach($nobatch as $ljob) {
+		
+		$thisid = $ljob['0'];
+		if ($bcolor == "#FFFFFF")   //alternate row background colors
+		{ 
+			$bcolor = "#F1EEEE"; 
+		} else { 
+			$bcolor = "#FFFFFF"; 
+		}
+	 ?>
+  <tr bgcolor="<?php echo $bcolor; ?>" onmouseover="this.bgColor = '#C2F3C6'" onmouseout ="this.bgColor = '<?php echo $bcolor ?>'">
+    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['0']); ?></span></td>
+    <td><div align="center">
+      <label>
+        <input name="inop[<?php printf($job['0']); ?>]" type="checkbox" value="checkbox" checked="checked" />
+        </label>
+    </div></td>
+    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php echo $vehicle; ?></span></td>
+    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['3']); ?></span></td>
+    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['4']); ?></span></td>
+    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['5']); ?></span></td>
+    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['6']); ?></span></td>
+    <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($ljob['7']); ?></span></td>
+    <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($ljob['12']); ?></span></td>
+    <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($ljob['13']); ?></span></td>
+    <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($ljob['14']); ?></span></td>
+    <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($ljob['15']); ?></span></td>
+    <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($ljob['16']); ?></span></td>
+    <td colspan="2"><div align="center"><span class="style15">$
+              <?php if ($ljob['19'] > 0 && $ljob['19'] <> "") { printf(number_format($ljob['19'],0)); } else { echo "0";  $ljob['19'] = "0"; } ?>
+    </span></div></td>
+  </tr>
+  <?php } 
+  } else { ?>
+  <tr>
+    <td colspan="15"><p>&nbsp;</p>
+        <p align="center" class="style14">No in-op jobs in this list </p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <?php } ?>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="style15">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td width="80">&nbsp;</td>
+  </tr>
+</table>
+<p align="center" class="style2">&nbsp;</p>
 </body>
 </html>

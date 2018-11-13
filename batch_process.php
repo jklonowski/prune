@@ -127,6 +127,7 @@ if ( isset($_POST["Submit"]) )
 			$myarray['v_class'] = $row['25'];
 			$myarray['vin'] = $row['20'];
 			$myarray['charged'] = $row['19'];
+			$vehicle = $row['21'] . " " . $row['22'] . " " . $row['23'] . " " . $row['24'];
 			
 			$mytable = "transport";
 		 	$res = pg_insert($dbconn, $mytable, $myarray);
@@ -141,11 +142,11 @@ if ( isset($_POST["Submit"]) )
 <form id="form1" name="form1" method="post" action="batch_pruned.php">
 <table width="1400" border="0" align="center" cellpadding="3" cellspacing="1">
     <tr>
-      <td colspan="14"><div align="center"><span class="style16">Ready to Rock </span><br />
+      <td colspan="15"><div align="center"><span class="style16">Ready to Rock </span><br />
           <span class="style20">(Remove the payout to exclude from the batch.) </span></div></td>
     </tr>
     <tr>
-      <td colspan="3"><div align="center" class="style11">
+      <td colspan="4"><div align="center" class="style11">
         </div></td>
       <td colspan="7"><div align="center" class="style16"></div></td>
       <td colspan="4"><div align="right" class="style14">
@@ -153,8 +154,7 @@ if ( isset($_POST["Submit"]) )
       </div></td>
     </tr>
     <tr>
-      <td bgcolor="#000000" class="style8"><div align="center"></div></td>
-      <td bgcolor="#000000" class="style8">&nbsp;</td>
+      <td colspan="3" bgcolor="#000000" class="style8"><div align="center">Auction Info </div></td>
       <td colspan="5" bgcolor="#000000" class="style8"><div align="center">Pickup Info </div></td>
       <td colspan="5" bgcolor="#000000" class="style8"><div align="center">Delivery Info </div></td>
       <td colspan="2" bgcolor="#000000" class="style8"><div align="center">Monitary</div></td>
@@ -162,6 +162,7 @@ if ( isset($_POST["Submit"]) )
     <tr>
       <td bgcolor="#330000"><div align="center" class="style8 style12 style14">Auction ID </div></td>
       <td bgcolor="#330000"><div align="center" class="style8 style12 style14">Inop? </div></td>
+      <td bgcolor="#330000"><div align="center" class="style8 style12 style14">Vehicle</div></td>
       <td bgcolor="#000033"><div align="center" class="style13">Name</div></td>
       <td bgcolor="#000033"><div align="center" class="style13">Address</div></td>
       <td bgcolor="#000033"><div align="center" class="style13">City</div></td>
@@ -193,6 +194,7 @@ if ( isset($_POST["Submit"]) )
       <td><div align="center">
           <input type="checkbox" name="inop[<?php printf($job['0']); ?>]" value="checkbox" />
       </div></td>
+      <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php echo $vehicle; ?></span></td>
       <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['3']); ?></span></td>
       <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['4']); ?></span></td>
       <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['5']); ?></span></td>
@@ -207,14 +209,16 @@ if ( isset($_POST["Submit"]) )
       <td width="80">
 	  <?php
 	  $var1 = $job['19'] * .75 / 25;
-	  $var2 = floor($var1);
+	  $var2 = ceil($var1);
 	  $pay = $var2 * 25;
+	  if ($pay == "100") { $pay = "90"; }
 	  ?>
        $<input name="pay[<?php printf($job['0']); ?>]" type="text" class="style15" id=="pay[<?php printf($job['0']); ?>]" value="<?php echo $pay; ?>" size="5" maxlength="5" />      </td>
     </tr>
     <?php } 
   }?>
     <tr>
+      <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td class="style15">&nbsp;</td>
@@ -234,12 +238,12 @@ if ( isset($_POST["Submit"]) )
   <p>&nbsp;</p>
   <table width="1400" border="0" align="center" cellpadding="3" cellspacing="1">
     <tr>
-      <td colspan="14"><div align="center"><span class="style16">Possible In-ops<br />
+      <td colspan="15"><div align="center"><span class="style16">Possible In-ops<br />
         </span><span class="style20">(Enter in a payout to include in the batch)
         </span></div></td>
     </tr>
     <tr>
-      <td colspan="3"><div align="center" class="style11">
+      <td colspan="4"><div align="center" class="style11">
         </div></td>
       <td colspan="7"><div align="center" class="style16"></div></td>
       <td colspan="4"><div align="right" class="style14">
@@ -247,8 +251,7 @@ if ( isset($_POST["Submit"]) )
       </div></td>
     </tr>
     <tr>
-      <td bgcolor="#000000" class="style8"><div align="center"></div></td>
-      <td bgcolor="#000000" class="style8">&nbsp;</td>
+      <td colspan="3" bgcolor="#000000" class="style8"><div align="center">Auction Info </div></td>
       <td colspan="5" bgcolor="#000000" class="style8"><div align="center">Pickup Info </div></td>
       <td colspan="5" bgcolor="#000000" class="style8"><div align="center">Delivery Info </div></td>
       <td colspan="2" bgcolor="#000000" class="style8"><div align="center">Monitary</div></td>
@@ -256,6 +259,7 @@ if ( isset($_POST["Submit"]) )
     <tr>
       <td bgcolor="#330000"><div align="center" class="style8 style12 style14">Auction ID </div></td>
       <td bgcolor="#330000"><div align="center" class="style8 style12 style14">Inop? </div></td>
+      <td bgcolor="#330000"><div align="center" class="style8 style12 style14">Vehicle</div></td>
       <td bgcolor="#000033"><div align="center" class="style13">Name</div></td>
       <td bgcolor="#000033"><div align="center" class="style13">Address</div></td>
       <td bgcolor="#000033"><div align="center" class="style13">City</div></td>
@@ -289,6 +293,7 @@ if ( isset($_POST["Submit"]) )
         <input name="inop[<?php printf($job['0']); ?>]" type="checkbox" value="checkbox" checked="checked" />
         </label>
       </div></td>
+      <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php echo $vehicle; ?></span></td>
       <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['3']); ?></span></td>
       <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['4']); ?></span></td>
       <td><span class="<?php if(isset($pswap[$thisid])) { echo "style17"; } else { echo "style15"; } ?>"><?php printf($job['5']); ?></span></td>
@@ -311,13 +316,14 @@ if ( isset($_POST["Submit"]) )
     <?php } 
   } else { ?>
       <tr>
-      <td colspan="14"><p>&nbsp;</p>
+      <td colspan="15"><p>&nbsp;</p>
         <p align="center" class="style14">No in-op jobs in this list </p>
         <p>&nbsp;</p></td>
     </tr>
   
   <?php } ?>
     <tr>
+      <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td class="style15">&nbsp;</td>
