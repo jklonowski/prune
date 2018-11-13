@@ -26,7 +26,6 @@
 -->
 </style>
 </head>
-
 <body>
 <?php
 //*** Connect to the DB ***
@@ -34,8 +33,6 @@ $user = "xdggshzwajnsri";
 $pass = "5322b774ceb298ccabda93325e8d1d0396cd228349e2798f1f12c8f787701449";
 $dbconn = pg_connect("host=ec2-107-21-98-165.compute-1.amazonaws.com port=5432 dbname=deisda4pd1ikeg user=$user password=$pass");
 if (!$dbconn) { echo "An error occurred.\n"; exit;}
-
-
 if ( isset($_POST["Submit"]) ) 
 {
 	//Remove any unpruned jobs so we're working with a clean slate
@@ -46,7 +43,6 @@ if ( isset($_POST["Submit"]) )
 	{ 
 		echo "An error occurred with removing unpruned data \n"; exit; 
 	}
-
 	//Take address swap CSV and throw it into an array
 	if (($csvfile = fopen("add_swap.csv", "r")) !== FALSE) 
 	{
@@ -89,8 +85,6 @@ if ( isset($_POST["Submit"]) )
 				$row['16'] = $add_csv[$d_id]['5'];
 				$dswap[$auctionid] = "1";
 			}
-
-
 			if ($row['3'] <> "ACV")  //If not ACV Relaunch
 			{
 				if ($row['29'] == "1" || $row['29'] == "1" || $row['30'] == "1" || $row['31'] == "1" || $row['32'] == "1" || $row['33'] == "1") {
@@ -118,6 +112,7 @@ if ( isset($_POST["Submit"]) )
 			$myarray['d_city'] = $row['14'];
 			$myarray['d_state'] = $row['15'];
 			$myarray['d_zip'] = $row['16'];
+
 			$myarray['d_contact'] = $row['17'];
 			$myarray['d_phone'] = $row['18'];
 			$myarray['v_year'] = $row['21'];
@@ -134,7 +129,6 @@ if ( isset($_POST["Submit"]) )
 		}
 	}		
 }
-
 ?>
 <br />
 <br />
@@ -352,10 +346,7 @@ foreach ($ready as $job)
 { ?>
 <input type="hidden" name="ready[]" value="<?php print_r($job); ?>"/>
 <?php } ?>
-
 <input type="hidden" name="filename" value="<?php echo $file; ?>"/>
-
 </form>
-
 </body>
 </html>

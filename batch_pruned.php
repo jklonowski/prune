@@ -52,7 +52,7 @@ if ( isset($_POST['pay']) )
 	unlink($filename);
 
 	$fp = fopen($filename, 'w');
-	$header = "Order #,Pickup Name,Pickup Address,Pickup City,Pickup State,Pickup Zip,Pickup Contact,Pickup Phone,Delivery Name,Del Address,Del City,Del State,Del Zip,Del Contact,Del Phone,Payout,VIN,Year,Make,Model,Trim,Class,Operable";
+	$header = "Order #,Pickup Name,Pickup Address,Pickup City,Pickup State,Pickup Zip,Pickup Contact,Pickup Phone,Delivery Name,Del Address,Del City,Del State,Del Zip,Del Contact,Del Phone,VIN,Year,Make,Model,Trim,Class,Charged,Payout,Operable";
 	$header = explode(",",$header);
 	fputcsv($fp, $header);
 	foreach ($info as $val)
@@ -73,13 +73,15 @@ if ( isset($_POST['pay']) )
 		$job['12'] = $val['d_zip'];
 		$job['13'] = $val['d_contact'];
 		$job['14'] = $val['d_phone'];
-		$job['15'] = $pay[$auction];
-		$job['16'] = $val['vin'];
-		$job['17'] = $val['v_year'];
-		$job['18'] = $val['v_make'];
-		$job['19'] = $val['v_model'];
-		$job['20'] = $val['v_trim'];
-		$job['21'] = $val['v_class'];
+		$job['15'] = $val['vin'];
+		$job['16'] = $val['v_year'];
+		$job['17'] = $val['v_make'];
+		$job['18'] = $val['v_model'];
+		$job['19'] = $val['v_trim'];
+		$job['20'] = $val['v_class'];
+		$job['21'] = $val['charged'];
+		$job['22'] = $pay[$auction];
+		
 		if ($pay[$auction] <> "")
 		{
 			if (isset($inop[$auction])) { $job['23'] = "** NO **"; } else { $job['23'] = "Yes"; }
