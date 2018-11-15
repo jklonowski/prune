@@ -128,8 +128,8 @@ if ( isset($_POST["Submit"]) )
 						$row['14'] = $carmax['state'];
 						$row['15'] = $carmax['city'];
 						$row['16'] = $carmax['zip'];
-					}	
-				} */
+					}	*/
+				} 
 			}
 			if ($row['3'] <> "ACV")  //If not ACV Relaunch
 			{
