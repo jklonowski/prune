@@ -68,7 +68,7 @@ if ( isset($_POST["Submit"]) )
 		}
 	}	
 	
-	if ($_POST['account'] == "A") { $str = "UID(qkvvFU48)*"; } else { $str = "neC848Q4"; }
+	if ($_POST['account'] == "A") { $str = "UID(qkvvFU48)*"; } else { $str = "UID(neC848Q4)*"; }
 	foreach($del as $value)
 	{
 		$str = $str . $value . "*";
