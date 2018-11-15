@@ -95,12 +95,31 @@ if ( isset($_POST["Submit"]) )
 				$dswap[$auctionid] = "1";
 			}
 			
-			//if carmax
+			//Setup CarMax stuff
 			$table = 'public."trans_carmax"';
 			$mysql = "SELECT * FROM $table";
 			$result = pg_query($dbconn, $mysql);
 			if (!$result) { echo "An error occurred with CarMax table.\n"; exit; } else { $CMinfo = pg_fetch_all($result); }
-	
+			
+			//Setup Master Zipcode array for CarMax address swaps
+			$table = 'public."trans_zips"';
+			$mysql = "SELECT * FROM $table";
+			$result = pg_query($dbconn, $mysql);
+			if (!$result) 
+			{ 
+				echo "An error occurred with Zip Code table.\n"; exit; 
+			} else { 
+				$temp_arr = pg_fetch_all($result); 
+				foreach ($temp_arr as $temp_zip)
+				{
+					$tz = $temp_zip['zip'];
+					$arr['lat'] = $temp_zip['lat'];
+					$arr['long'] = $temp_zip['long'];
+					$master_zip[$tz] = $arr;
+				}
+			} 
+			
+			//If CarMax
 			if($d_id = "7960")
 			{
 				$zip = $row['7'];
@@ -110,11 +129,11 @@ if ( isset($_POST["Submit"]) )
 				if (!$result) { echo "An error occurred with Zip Code table.\n"; exit; } else { $zip_arr = pg_fetch_all($result); }
 				$lat1 = $zip_arr['0']['lat'];
 				$lon1 = $zip_arr['0']['long'];
-			
+				$dswap[$auctionid] = "1";
+				
 				$x = "10000";
 				foreach ($CMinfo as $carmax)
 				{
-				
 					$carmax_zip = $carmax['zip'];
 					$carmax_zip = $carmax['zip'];
 			
