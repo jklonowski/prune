@@ -114,6 +114,7 @@ if ( isset($_POST["Submit"]) )
 				$x = "10000";
 				foreach ($CMinfo as $carmax)
 				{
+				/*
 					$carmax_zip = $carmax['zip'];
 					$carmax_zip = $carmax['zip'];
 			
@@ -128,7 +129,7 @@ if ( isset($_POST["Submit"]) )
 						$row['15'] = $carmax['city'];
 						$row['16'] = $carmax['zip'];
 					}	
-				
+				} */
 			}
 			if ($row['3'] <> "ACV")  //If not ACV Relaunch
 			{
