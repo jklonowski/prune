@@ -63,6 +63,30 @@ if ( isset($_POST["Submit"]) )
     	fclose($csvfile);
 	}
 	
+//Setup CarMax stuff
+	$table = 'public."trans_carmax"';
+	$mysql = "SELECT * FROM $table";
+	$result = pg_query($dbconn, $mysql);
+	if (!$result) { echo "An error occurred with CarMax table.\n"; exit; } else { $CMinfo = pg_fetch_all($result); }
+	
+	//Setup Master Zipcode array for CarMax address swaps
+	$table = 'public."trans_zips"';
+	$mysql = "SELECT * FROM $table";
+	$result = pg_query($dbconn, $mysql);
+	if (!$result) 
+	{ 
+		echo "An error occurred with Zip Code table.\n"; exit; 
+	} else { 
+		$temp_arr = pg_fetch_all($result); 
+		foreach ($temp_arr as $temp_zip)
+		{
+			$tz = $temp_zip['zip'];
+			$arr['lat'] = $temp_zip['lat'];
+			$arr['long'] = $temp_zip['long'];
+			$master_zip[$tz] = $arr;
+		}
+	} 
+	
 	//handle upload and setup batch file into an array
 	$file = $_FILES["file"]['tmp_name']; 
 	$handle = fopen($file,"r"); 
@@ -94,30 +118,6 @@ if ( isset($_POST["Submit"]) )
 				$row['16'] = $add_csv[$d_id]['5'];
 				$dswap[$auctionid] = "1";
 			}
-			
-			//Setup CarMax stuff
-			$table = 'public."trans_carmax"';
-			$mysql = "SELECT * FROM $table";
-			$result = pg_query($dbconn, $mysql);
-			if (!$result) { echo "An error occurred with CarMax table.\n"; exit; } else { $CMinfo = pg_fetch_all($result); }
-			
-			//Setup Master Zipcode array for CarMax address swaps
-			$table = 'public."trans_zips"';
-			$mysql = "SELECT * FROM $table";
-			$result = pg_query($dbconn, $mysql);
-			if (!$result) 
-			{ 
-				echo "An error occurred with Zip Code table.\n"; exit; 
-			} else { 
-				$temp_arr = pg_fetch_all($result); 
-				foreach ($temp_arr as $temp_zip)
-				{
-					$tz = $temp_zip['zip'];
-					$arr['lat'] = $temp_zip['lat'];
-					$arr['long'] = $temp_zip['long'];
-					$master_zip[$tz] = $arr;
-				}
-			} 
 			
 			//If CarMax
 			if($d_id == "7960")
