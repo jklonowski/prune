@@ -16,8 +16,8 @@
 .style14 {font-family: Arial, Helvetica, sans-serif}
 .style15 {font-size: 12px; font-family: Arial, Helvetica, sans-serif; }
 .style16 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; }
-.style20 {font-size: 12px; font-style: italic; }
 .style8 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 14px; color: #FFFFFF; }
+.style21 {font-size: 18px}
 -->
 </style>
 </head>
@@ -100,9 +100,9 @@ if ( isset($_POST['pay']) )
 
 
 ?>	
-<p align="center" class="style1">Uh oh! You've been Shuecklered! </p>
+<p align="center" class="style1">This batch is Schueckler approved! </p>
 <p align="center" class="style1">&nbsp;</p>
-<p align="center" class="style2"><?php printf($x); ?> Pruned Jobs | <?php printf(count($nobatch)); ?> Leftover Jobs </p>
+<p align="center" class="style1"><strong><?php printf($x); ?></strong> <span class="style21">Pruned Jobs</span> | <strong><?php printf(count($nobatch)); ?></strong> <span class="style21">Leftover Jobs</span> </p>
 <p align="center" class="style2"><a href="#">Post to Partners</a> | <a href="#">Post to Preferred</a> </p>
 <p align="center" class="style2">Download CSV File: <a href="<?php echo "$filename"; ?>"><?php echo "$filename"; ?></a></p>
 <p align="center" class="style2">&nbsp;</p>

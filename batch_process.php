@@ -24,7 +24,21 @@
 }
 .style20 {font-size: 12px; font-style: italic; }
 -->
-</style>
+	</style>
+	
+<script>
+function clearpay(myvar)
+{
+document.getElementById("pay["+myvar+"]").value = '';
+document.getElementById("r"+myvar).style.textDecoration ='line-through';
+}
+
+function unstrike(myvar)
+{
+document.getElementById("r"+myvar).style.textDecoration ='none';
+}
+</script>
+
 </head>
 <body>
 <?php
@@ -165,7 +179,7 @@ if ( isset($_POST["Submit"]) )
 				//Add to transportation table with pruned = FALSE
 			
 			$myarray['auction_id'] =  $row['0'];
-			$myarray['p_id'] = $row['1'];
+			$myarray['p_id'] = number_format($row['1'],"0","","");
 			$myarray['p_name'] = $row['3'];
 			$myarray['p_address'] = $row['4'];
 			$myarray['p_city'] = $row['5'];
@@ -196,8 +210,7 @@ if ( isset($_POST["Submit"]) )
 	}		
 }
 ?>
-<br />
-<br />
+
 <form id="form1" name="form1" method="post" action="batch_pruned.php">
 <table width="1400" border="0" align="center" cellpadding="3" cellspacing="1">
     <tr>
@@ -250,7 +263,7 @@ if ( isset($_POST["Submit"]) )
 			$bcolor = "#FFFFFF"; 
 		}
 	 ?>
-    <tr bgcolor="<?php echo $bcolor; ?>" onMouseOver="this.bgColor = '#C2F3C6'" onMouseOut ="this.bgColor = '<?php echo $bcolor ?>'">
+    <tr id="<?php echo"r$thisid"; ?>" bgcolor="<?php echo $bcolor; ?>" onMouseOver="this.bgColor = '#C2F3C6'" onMouseOut ="this.bgColor = '<?php echo $bcolor ?>'">
       <td><span class="style15"><?php printf($job['0']); ?></span></td>
       <td><div align="center">
           <input type="checkbox" name="inop[<?php printf($job['0']); ?>]" value="checkbox" />
@@ -267,14 +280,19 @@ if ( isset($_POST["Submit"]) )
       <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($job['15']); ?></span></td>
       <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($job['16']); ?></span></td>
       <td><div align="center"><span class="style15">$<?php if ($job['19'] > 0 && $job['19'] <> "") { printf(number_format($job['19'],0)); } else { echo "0";  $job['19'] = "0"; } ?> </span></div></td>
-      <td width="80">
-	  <?php
-	  $var1 = $job['19'] * .75 / 25;
-	  $var2 = ceil($var1);
-	  $pay = $var2 * 25;
-	  if ($pay == "100") { $pay = "90"; }
-	  ?>
-       $<input name="pay[<?php printf($job['0']); ?>]" type="text" class="style15" id=="pay[<?php printf($job['0']); ?>]" value="<?php echo $pay; ?>" size="5" maxlength="5" />      </td>
+      <td width="100">
+  <?php
+  $var1 = $job['19'] * .75 / 25;
+  $var2 = ceil($var1);
+  $pay = $var2 * 25;
+  ?>
+       $
+       <input name="pay[<?php printf($job['0']); ?>]" type="text"
+class="style15" id="pay[<?php printf($job['0']); ?>]" value="<?php
+echo $pay; ?>" size="3" maxlength="5" onClick="unstrike('<?php printf($job['0']); ?>')" /> 
+
+   <a href="javascript:clearpay('<?php printf($job['0']);
+?>')" class="style12">clear</a> </td>
     </tr>
     <?php } 
   }?>
@@ -367,13 +385,20 @@ if ( isset($_POST["Submit"]) )
       <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($job['15']); ?></span></td>
       <td><span class="<?php if(isset($dswap[$thisid])) { echo "style18"; } else { echo "style15"; } ?>"><?php printf($job['16']); ?></span></td>
       <td><div align="center"><span class="style15">$<?php if ($job['19'] > 0 && $job['19'] <> "") { printf(number_format($job['19'],0)); } else { echo "0";  $job['19'] = "0"; } ?> </span></div></td>
-      <td width="80">
-	  <?php
-	  $var1 = $job['19'] * .75 / 25;
-	  $var2 = floor($var1);
-	  $pay = $var2 * 25;
-	  ?>
-       $<input name="pay[<?php printf($job['0']); ?>]" type="text" class="style15" id=="pay[<?php printf($job['0']); ?>]"  size="5" maxlength="5" />     </td>
+      <td width="100">
+  <?php
+  $var1 = $job['19'] * .75 / 25;
+  $var2 = ceil($var1);
+  $pay = $var2 * 25;
+  if ($pay == "100") { $pay = "90"; }
+  ?>
+       $
+       <input name="pay[<?php printf($job['0']); ?>]" type="text"
+class="style15" id="pay[<?php printf($job['0']); ?>]" value="<?php
+echo $pay; ?>" size="3" maxlength="5" /> 
+
+   <a href="javascript:clearpay('<?php printf($job['0']);
+?>')" class="style12">clear</a> </td>
     </tr>
     <?php } 
   } else { ?>
