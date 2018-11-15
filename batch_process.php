@@ -35,6 +35,16 @@ $pass = "5322b774ceb298ccabda93325e8d1d0396cd228349e2798f1f12c8f787701449";
 $dbconn = pg_connect("host=ec2-107-21-98-165.compute-1.amazonaws.com port=5432 dbname=deisda4pd1ikeg user=$user password=$pass");
 if (!$dbconn) { echo "An error occurred.\n"; exit;}
 
+function distance($lat1, $lon1, $lat2, $lon2) 
+{ 
+  $theta = $lon1 - $lon2; 
+  $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta)); 
+  $dist = acos($dist); 
+  $dist = rad2deg($dist); 
+  $miles = $dist * 60 * 1.1515;
+
+RETURN $miles;
+}
 
 if ( isset($_POST["Submit"]) ) 
 {
@@ -88,6 +98,45 @@ if ( isset($_POST["Submit"]) )
 				$row['15'] = $add_csv[$d_id]['4'];
 				$row['16'] = $add_csv[$d_id]['5'];
 				$dswap[$auctionid] = "1";
+			}
+			
+			//if carmax
+			$table = 'public."trans_carmax"';
+			$mysql = "SELECT * FROM $table";
+			$result = pg_query($dbconn, $mysql);
+			if (!$result) { echo "An error occurred with CarMax table.\n"; exit; } else { $CMinfo = pg_fetch_all($result); }
+	
+			if($d_id = "7960")
+			{
+				$zip = $row['7'];
+				$table = 'public."trans_zips"';
+				$mysql = "SELECT * FROM $table WHERE zip = '$zip'";
+				$result = pg_query($dbconn, $mysql);
+				if (!$result) { echo "An error occurred with Zip Code table.\n"; exit; } else { $zip_arr = pg_fetch_all($result); }
+				$lat1 = $zip_arr['0']['lat'];
+				$lon1 = $zip_arr['0']['long'];
+			
+				$x = "10000";
+				foreach ($CMinfo as $carmax)
+				{
+					$carmax_zip = $carmax['zip'];
+					$carmax_id = $carmax['carmax_id'];
+					$table = 'public."trans_zips"';
+					$mysql = "SELECT * FROM $table WHERE zip = '$carmax_zip'";
+					$result = pg_query($dbconn, $mysql);
+					if (!$result) { echo "An error occurred with Zip Code table.\n"; exit; } else { $zip_arr = pg_fetch_all($result); }
+					$lat2 = $zip_arr['0']['lat'];
+					$lon2 = $zip_arr['0']['long'];
+					
+					$dist = distance($lat1, $lon1, $lat2, $lon2);
+					if ($dist < $x) 
+					{ 
+						$row['13'] = $carmax['address'];
+						$row['14'] = $carmax['state'];
+						$row['15'] = $carmax['city'];
+						$row['16'] = $carmax['zip'];
+					}
+				}
 			}
 
 

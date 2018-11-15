@@ -55,6 +55,8 @@ if ( isset($_POST['pay']) )
 	$header = "Order #,Pickup Name,Pickup Address,Pickup City,Pickup State,Pickup Zip,Pickup Contact,Pickup Phone,Delivery Name,Del Address,Del City,Del State,Del Zip,Del Contact,Del Phone,Payout,VIN,Year,Make,Model,Trim,Class,Operable";
 	$header = explode(",",$header);
 	fputcsv($fp, $header);
+	
+	$x = 0;
 	foreach ($info as $val)
 	{
 		$auction = $val['auction_id'];
@@ -84,6 +86,7 @@ if ( isset($_POST['pay']) )
 		{
 			if (isset($inop[$auction])) { $job['23'] = "** NO **"; } else { $job['23'] = "Yes"; }
 			fputcsv($fp, $job);
+			$x++;
 		} else {
 			$nobatch[] = $job;
 		}
@@ -97,7 +100,9 @@ if ( isset($_POST['pay']) )
 ?>	
 <p align="center" class="style1">Uh oh! You've been Shuecklered! </p>
 <p align="center" class="style1">&nbsp;</p>
-<p align="center" class="style2">Your File: <a href="<?php echo "$filename"; ?>"><?php echo "$filename"; ?></a></p>
+<p align="center" class="style2"><?php printf($x); ?> Pruned Jobs | <?php printf(count($nobatch)); ?> Leftover Jobs </p>
+<p align="center" class="style2"><a href="#">Post to Partners</a> | <a href="#">Post to Preferred</a> </p>
+<p align="center" class="style2">Download CSV File: <a href="<?php echo "$filename"; ?>"><?php echo "$filename"; ?></a></p>
 <p align="center" class="style2">&nbsp;</p>
 <table width="1400" border="0" align="center" cellpadding="3" cellspacing="1">
   <tr>
