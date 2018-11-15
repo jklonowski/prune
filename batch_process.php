@@ -117,7 +117,7 @@ if ( isset($_POST["Submit"]) )
 				$lon1 = $zip_arr['0']['long'];
 			
 				$x = "10000";
-				foreach ($CMinfo as $carmax)
+				/* foreach ($CMinfo as $carmax)
 				{
 					$carmax_zip = $carmax['zip'];
 					$carmax_id = $carmax['carmax_id'];
@@ -137,6 +137,7 @@ if ( isset($_POST["Submit"]) )
 						$row['16'] = $carmax['zip'];
 					}
 				}
+				*/
 			}
 
 
