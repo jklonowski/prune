@@ -144,6 +144,7 @@ if ( isset($_POST["Submit"]) )
 					$dist = distance($lat1, $lon1, $lat2, $lon2);
 					if ($dist < $x) 
 					{ 
+						$x = $dist;
 						$row['13'] = $carmax['address'];
 						$row['14'] = $carmax['state'];
 						$row['15'] = $carmax['city'];
