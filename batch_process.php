@@ -26,7 +26,6 @@
 -->
 </style>
 </head>
-
 <body>
 <?php
 //*** Connect to the DB ***
@@ -34,7 +33,6 @@ $user = "xdggshzwajnsri";
 $pass = "5322b774ceb298ccabda93325e8d1d0396cd228349e2798f1f12c8f787701449";
 $dbconn = pg_connect("host=ec2-107-21-98-165.compute-1.amazonaws.com port=5432 dbname=deisda4pd1ikeg user=$user password=$pass");
 if (!$dbconn) { echo "An error occurred.\n"; exit;}
-
 function distance($lat1, $lon1, $lat2, $lon2) 
 { 
   $theta = $lon1 - $lon2; 
@@ -42,10 +40,8 @@ function distance($lat1, $lon1, $lat2, $lon2)
   $dist = acos($dist); 
   $dist = rad2deg($dist); 
   $miles = $dist * 60 * 1.1515;
-
 RETURN $miles;
 }
-
 if ( isset($_POST["Submit"]) ) 
 {
 	//Remove any unpruned jobs so we're working with a clean slate
@@ -56,7 +52,6 @@ if ( isset($_POST["Submit"]) )
 	{ 
 		echo "An error occurred with removing unpruned data \n"; exit; 
 	}
-
 	//Take address swap CSV and throw it into an array
 	if (($csvfile = fopen("add_swap.csv", "r")) !== FALSE) 
 	{
@@ -117,30 +112,24 @@ if ( isset($_POST["Submit"]) )
 				$lon1 = $zip_arr['0']['long'];
 			
 				$x = "10000";
-				/* foreach ($CMinfo as $carmax)
+				foreach ($CMinfo as $carmax)
 				{
 					$carmax_zip = $carmax['zip'];
-					$carmax_id = $carmax['carmax_id'];
-					$table = 'public."trans_zips"';
-					$mysql = "SELECT * FROM $table WHERE zip = '$carmax_zip'";
-					$result = pg_query($dbconn, $mysql);
-					if (!$result) { echo "An error occurred with Zip Code table.\n"; exit; } else { $zip_arr = pg_fetch_all($result); }
-					$lat2 = $zip_arr['0']['lat'];
-					$lon2 = $zip_arr['0']['long'];
+					$carmax_zip = $carmax['zip'];
+			
+					$lat2 = $master_zip[$carmax_zip]['lat'];
+					$lon2 = $master_zip[$carmax_zip]['long'];
 					
 					$dist = distance($lat1, $lon1, $lat2, $lon2);
-					if ($dist < $x) 
+					if ($dist < $x['dist']) 
 					{ 
 						$row['13'] = $carmax['address'];
 						$row['14'] = $carmax['state'];
 						$row['15'] = $carmax['city'];
 						$row['16'] = $carmax['zip'];
-					}
-				}
+					}	
 				*/
 			}
-
-
 			if ($row['3'] <> "ACV")  //If not ACV Relaunch
 			{
 				if ($row['29'] == "1" || $row['29'] == "1" || $row['30'] == "1" || $row['31'] == "1" || $row['32'] == "1" || $row['33'] == "1") {
@@ -184,7 +173,6 @@ if ( isset($_POST["Submit"]) )
 		}
 	}		
 }
-
 ?>
 <br />
 <br />
@@ -402,10 +390,7 @@ foreach ($ready as $job)
 { ?>
 <input type="hidden" name="ready[]" value="<?php print_r($job); ?>"/>
 <?php } ?>
-
 <input type="hidden" name="filename" value="<?php echo $file; ?>"/>
-
 </form>
-
 </body>
 </html>
