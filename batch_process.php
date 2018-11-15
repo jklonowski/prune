@@ -122,6 +122,7 @@ if ( isset($_POST["Submit"]) )
 			//If CarMax
 			if($d_id = "7960")
 			{
+				$dswap[$auctionid] = "1";
 				$zip = $row['7'];
 				$table = 'public."trans_zips"';
 				$mysql = "SELECT * FROM $table WHERE zip = '$zip'";
