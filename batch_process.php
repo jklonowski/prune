@@ -160,8 +160,8 @@ if ( isset($_POST["Submit"]) )
 					{ 
 						$x = $dist;
 						$row['13'] = $carmax['address'];
-						$row['14'] = $carmax['state'];
-						$row['15'] = $carmax['city'];
+						$row['14'] = $carmax['city'];
+						$row['15'] = $carmax['state'];
 						$row['16'] = $carmax['zip'];
 					}	
 				} 
