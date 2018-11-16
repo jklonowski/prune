@@ -102,7 +102,7 @@ if ( isset($_POST['pay']) )
 ?>	
 <p align="center" class="style1">This batch is Schueckler approved! </p>
 <p align="center" class="style1">&nbsp;</p>
-<p align="center" class="style1"><strong><?php printf($x); ?></strong> <span class="style21">Pruned Jobs</span> | <strong><?php printf(count($nobatch)); ?></strong> <span class="style21">Leftover Jobs</span> </p>
+<p align="center" class="style1"><strong><?php printf($x); ?></strong> <span class="style21">Pruned Jobs</span> | <strong><?php if (isset($nobatch)) { printf(count($nobatch)); } else { echo "0"; } ?></strong> <span class="style21">Leftover Jobs</span> </p>
 <p align="center" class="style2"><a href="#">Post to Partners</a> | <a href="#">Post to Preferred</a> </p>
 <p align="center" class="style2">Download CSV File: <a href="<?php echo "$filename"; ?>"><?php echo "$filename"; ?></a></p>
 <p align="center" class="style2">&nbsp;</p>
